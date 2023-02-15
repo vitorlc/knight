@@ -31,7 +31,7 @@ export class Attribute {
 }
 export const AttributeSchema = SchemaFactory.createForClass(Attribute);
 
-@Schema()
+@Schema({ toJSON: { virtuals: true } })
 export class Knight {
     @Prop()
     name: string;
@@ -50,3 +50,31 @@ export class Knight {
 export type KnightDocument = HydratedDocument<Knight>;
 
 export const KnightSchema = SchemaFactory.createForClass(Knight);
+
+const calculateAge = (birthdayDate) => { // FIXME: levar em consideração os meses
+    const birthdayYear = +birthdayDate.split('/')[2]
+    const today = new Date().getFullYear()
+    return today - birthdayYear
+}
+
+KnightSchema.virtual('age')
+    .get(function () {
+        return calculateAge(this.birthday)
+    });
+
+KnightSchema.virtual('attack')
+    .get(function () {
+        const equippedWeaponsMod = this.weapons
+            .filter(elm => elm.equipped == true)
+            .reduce((acc, cur) => acc + cur.mod, 0)
+        const attibuteValue = this.attributes && this.attributes[this.keyAttribute] ? 
+            +this.attributes[this.keyAttribute] : 0
+        return 10 + equippedWeaponsMod + attibuteValue
+    });
+
+KnightSchema.virtual('experience')
+    .get(function () {
+        const age = calculateAge(this.birthday)
+        if (age < 7) return 0
+        return Math.floor((age - 7) * Math.pow(22, 1.45))
+    });
