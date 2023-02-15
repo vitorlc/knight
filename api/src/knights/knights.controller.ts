@@ -19,16 +19,16 @@ export class KnightsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.knightsService.findOne(+id);
+    return this.knightsService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateKnightDto: UpdateKnightDto) {
-    return this.knightsService.update(+id, updateKnightDto);
+    return this.knightsService.update(id, updateKnightDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.knightsService.remove(+id);
+    return this.knightsService.remove(id);
   }
 }
