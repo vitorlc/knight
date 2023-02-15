@@ -17,17 +17,17 @@ export const WeaponSchema = SchemaFactory.createForClass(Weapon);
 @Schema()
 export class Attribute {
     @Prop()
-    strengh: string;
+    strength: number;
     @Prop()
-    dexterity: string;
+    dexterity: number;
     @Prop()
-    constitution: string;
+    constitution: number;
     @Prop()
-    intelligence: string;
+    intelligence: number;
     @Prop()
-    wisdom: string;
+    wisdom: number;
     @Prop()
-    charisma: string;
+    charisma: number;
 }
 export const AttributeSchema = SchemaFactory.createForClass(Attribute);
 
